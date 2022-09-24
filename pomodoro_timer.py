@@ -4,6 +4,7 @@
 # left and right rise together,
 # Once left and right grid has reached the top,
 # fill top panel in diamond pattern, starting from the user pointed away, towards the back of the cube
+# update: diamond pattern grid is complex, too much math for my liking
 #
 # Concept: "Rising Timer"
 # Amount of time passed = rising led levels
