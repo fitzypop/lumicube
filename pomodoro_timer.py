@@ -58,7 +58,7 @@ def kv_grid(level: int, color: int) -> dict:
     return leds
 
 
-def rising_timer(color: int):
+def rising_timer(color: int) -> dict:
     i = 0
     while True:
         i += 1
@@ -66,7 +66,7 @@ def rising_timer(color: int):
         display.set_leds(grid)
         time.sleep(0.3)
         if i == 16:
-            break
+            return grid
 
 
 def flicker(grid, n=3):
@@ -88,8 +88,8 @@ def main():
         # TODO: where would button presses go in this loop?
         color = random_colour()
         title(color)
-        rising_timer(color)
-        flicker(kv_grid(16, color))
+        grid = rising_timer(color)
+        flicker(grid)
 
 
 if __name__ == "__main__":
