@@ -38,7 +38,8 @@
 def title(color):
     display.set_all(black)
     display.scroll_text("pomodoro timer", color, black)
-    display.scroll_text("written by fitzypop   >:p", random_colour(), black)
+    display.scroll_text("written by fitzypop", random_colour(), black)
+    display.scroll_text(">:p", random_colour(), black)
 
 
 def kv_grid(level: int, color: int) -> dict:
