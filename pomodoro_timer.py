@@ -69,7 +69,16 @@ def rising_timer(color: int):
         display.set_leds(grid)
         time.sleep(0.6)
         if i == 16:
-            return
+            break
+    display.set_all(black)
+    time.sleep(0.5)
+    display.set_leds(grid)
+    time.sleep(0.5)
+    display.set_all(black)
+    time.sleep(0.5)
+    display.set_leds(grid)
+    time.sleep(0.5)
+    display.set_all(black)
 
 
 def main():
@@ -92,6 +101,7 @@ def main():
 
     while True:
         display.set_all(black)
+        time.sleep(0.5)
         color = random.choice(colors)
 
         rising_timer(color)
