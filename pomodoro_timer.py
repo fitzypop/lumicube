@@ -1,9 +1,11 @@
-# Pomodoro Timer
+# pomodoro_timer.py
 
 # raise LEDS "up" the cube, like raising sea levels
 # left and right rise together,
 # Once left and right grid has reached the top,
-# fill top panel in diamond pattern, starting from the user pointed away, towards the back of the cube
+# fill top panel in diamond pattern, starting from the user pointed away,
+# towards the back of the cube.
+#
 # update: diamond pattern grid is complex, too much math for my liking
 #
 # Concept: "Rising Timer"
@@ -33,22 +35,17 @@
 # What color? White? Magenta?
 
 
-import random
-import time
-from datetime import datetime
-from pprint import pprint
-
-from dateutil.relativedelta import relativedelta
-
-# Initial Setup / Global things
-time_format = "%H:%M:%S"
+def title(color):
+    display.set_all(black)
+    display.scroll_text("pomodoro timer", color, black)
+    display.scroll_text("written by fitzypop   >:p", random_colour(), black)
 
 
-def kv_grid(level: int, color: int):
+def kv_grid(level: int, color: int) -> dict:
     """Generate {(x,y): color} dict.
 
-    left - right x 0 - 15, y 0 - 7
-    top panel goes x 0 -7, y 8 - 15
+    left right panel ( x 0 - 15, y 0 - 7 )
+    top panel: ( x 0 -7, y 8 - 15 )
     """
     leds = dict()
     for x in range(16):
@@ -66,46 +63,33 @@ def rising_timer(color: int):
     while True:
         i += 1
         grid = kv_grid(i, color)
-        # pprint(grid)
         display.set_leds(grid)
-        time.sleep(0.6)
+        time.sleep(0.3)
         if i == 16:
             break
+
+
+def flicker(grid, n=3):
+    i = 0
+    while i < n:
+        i += 1
+        display.set_all(black)
+        time.sleep(0.5)
+        display.set_leds(grid)
+        time.sleep(0.5)
     display.set_all(black)
     time.sleep(0.5)
-    display.set_leds(grid)
-    time.sleep(0.5)
-    display.set_all(black)
-    time.sleep(0.5)
-    display.set_leds(grid)
-    time.sleep(0.5)
-    display.set_all(black)
 
 
 def main():
-    colors = [
-        blue,
-        cyan,
-        green,
-        grey,
-        magenta,
-        orange,
-        pink,
-        purple,
-        red,
-        white,
-        yellow,
-    ]
-
-    display.set_all(black)
-    display.scroll_text("pomodoro timer", random.choice(colors), black)
+    display.brightness = 20
 
     while True:
-        display.set_all(black)
-        time.sleep(0.5)
-        color = random.choice(colors)
-
+        # TODO: where would button presses go in this loop?
+        color = random_colour()
+        title(color)
         rising_timer(color)
+        flicker(kv_grid(16, color))
 
 
 if __name__ == "__main__":
