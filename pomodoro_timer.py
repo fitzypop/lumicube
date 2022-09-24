@@ -44,8 +44,11 @@ time_format = "%H:%M:%S"
 
 
 def kv_grid(level: int, color: int):
-    # left - right x 0 - 15, y 0 - 7
-    # top panel goes x 0 -7, y 8 - 15
+    """Generate {(x,y): color} dict.
+
+    left - right x 0 - 15, y 0 - 7
+    top panel goes x 0 -7, y 8 - 15
+    """
     leds = dict()
     for x in range(16):
         for y in range(level):
@@ -64,7 +67,7 @@ def rising_timer(color: int):
         grid = kv_grid(i, color)
         # pprint(grid)
         display.set_leds(grid)
-        time.sleep(0.3)
+        time.sleep(0.6)
         if i == 16:
             return
 
@@ -84,14 +87,14 @@ def main():
         yellow,
     ]
 
-    display.scroll_text("pomodoro timer", magenta, black)
+    display.set_all(black)
+    display.scroll_text("pomodoro timer", random.choice(colors), black)
 
     while True:
         display.set_all(black)
         color = random.choice(colors)
-        rising_timer(color)
 
-    # TODO: 16 grid levels - 20 - 30 minute runtime, 2 - 5 minute runtime
+        rising_timer(color)
 
 
 if __name__ == "__main__":
