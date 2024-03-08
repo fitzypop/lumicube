@@ -37,6 +37,5 @@ if __name__ == "__main__":
         )
 
         if datetime.now() >= start + wait_time:
-            print("updated")
             price = get_btc_price()
             start = datetime.now()
