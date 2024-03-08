@@ -11,11 +11,19 @@ import requests
 import math
 from typing import Any
 
-# clear all leds
-display.set_all(black)
 
 BUY_PRICE = 25_000
 SELL_PRICE = 60_000
+
+BLACK = 0x00000
+BLUE = 0x0000FF
+GOLD = 0xFFD700
+GREEN = 0x00FF00
+RED = 0xFF0000
+WHITE = 0xFFFFFF
+
+# clear all leds
+display.set_all(BLACK)
 
 
 def parse_to_money(in_num: float) -> tuple[str, Any]:
@@ -25,15 +33,15 @@ def parse_to_money(in_num: float) -> tuple[str, Any]:
 
     # Buy Color
     if price_int <= BUY_PRICE:
-        color = 0xFFD700  # gold
+        color = GOLD
 
     # Hodl color
     elif BUY_PRICE < price_int < SELL_PRICE:
-        color = blue
+        color = BLUE
 
     # Sell color
     elif price_int >= SELL_PRICE:
-        color = green
+        color = GREEN
 
     # shorten money string formatting
     if i_len == 7:
@@ -55,12 +63,26 @@ def get_btc_price() -> tuple[str, Any]:
     return parse_to_money(price)
 
 
+# TODO: 8x8 arrays for top panel display
+
+buy = [
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+    [BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK],
+]
+
 if __name__ == "__main__":
     price, color = get_btc_price()
     start = datetime.now()
     wait_time = timedelta(minutes=2)
 
     while True:
+        # display.set_panel("top", buy)
         display.scroll_text(f"BTC ${price}", speed=0.5, colour=color)
 
         if datetime.now() >= start + wait_time:
