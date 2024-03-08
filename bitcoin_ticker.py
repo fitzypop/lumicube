@@ -86,5 +86,6 @@ if __name__ == "__main__":
         display.scroll_text(f"BTC ${price}", speed=0.5, colour=color)
 
         if datetime.now() >= start + wait_time:
-            price, color = get_btc_price()
             start = datetime.now()
+            print(f"fetching btc price: {start}")
+            price, color = get_btc_price()
