@@ -9,6 +9,7 @@ Color meanings:
 from datetime import datetime, timedelta
 import requests
 import math
+import time
 from typing import Any
 
 
@@ -83,9 +84,11 @@ if __name__ == "__main__":
 
     while True:
         # display.set_panel("top", buy)
-        display.scroll_text(f"BTC ${price}", speed=0.5, colour=color)
+        display.scroll_text(f"BTC ${price}", speed=1.5, colour=color)
 
         if datetime.now() >= start + wait_time:
             start = datetime.now()
             print(f"fetching btc price: {start}")
             price, color = get_btc_price()
+        else:
+            time.sleep(3)
