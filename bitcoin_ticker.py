@@ -44,15 +44,15 @@ def parse_to_money(in_num: float) -> tuple[str, Any]:
     elif price_int >= SELL_PRICE:
         color = GREEN
 
-    # shorten money string formatting
+    # money string formatting
     if i_len == 7:
-        price = f"{in_str[:1]}m"
+        price = f"${in_str[:1]}m"
     if i_len == 6:
-        price = f"{in_str[:3]}k"
+        price = f"${in_str[:3]}k"
     elif i_len == 5:
-        price = f"{in_str[:2]}k"
+        price = f"${in_str[:2]}k"
     elif i_len == 4:
-        price = f"{in_str[:1]}k"
+        price = f"${in_str[:1]}k"
     else:
         price = in_str
     return price, color
@@ -84,11 +84,11 @@ if __name__ == "__main__":
 
     while True:
         # display.set_panel("top", buy)
-        display.scroll_text(f"BTC ${price}", speed=1.5, colour=color)
+        display.scroll_text(f"BTC {price}", speed=1.5, colour=color)
 
         if datetime.now() >= start + wait_time:
             start = datetime.now()
-            print(f"fetching btc price: {start}")
+            print(f"fetching btc price: {price} {start}")
             price, color = get_btc_price()
         else:
             time.sleep(3)
