@@ -61,6 +61,7 @@ def parse_to_money(in_num: float) -> tuple[str, Any]:
 def get_btc_price() -> tuple[str, Any]:
     response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
     price = float(response.json()["data"]["priceUsd"])
+    print(f"BTC ${price:.2f}  {start}")
     return parse_to_money(price)
 
 
@@ -78,8 +79,8 @@ buy = [
 ]
 
 if __name__ == "__main__":
-    price, color = get_btc_price()
     start = datetime.now()
+    price, color = get_btc_price()
     wait_time = timedelta(minutes=2)
 
     while True:
@@ -88,7 +89,6 @@ if __name__ == "__main__":
 
         if datetime.now() >= start + wait_time:
             start = datetime.now()
-            print(f"fetching btc price: {price} {start}")
             price, color = get_btc_price()
         else:
             time.sleep(3)
