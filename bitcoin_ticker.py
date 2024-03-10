@@ -9,8 +9,7 @@ Color meanings:
 from datetime import datetime, timedelta
 import requests
 import time
-
-from money import Money
+from contextlib import suppress
 
 # Normal Price targets
 # BUY_PRICE = 25_000
@@ -31,7 +30,7 @@ WHITE = 0xFFFFFF
 display.set_all(BLACK)
 
 
-def parse_and_get_color(price):
+def get_color(price):
     # Buy Color
     if price <= BUY_PRICE:
         color = GOLD
@@ -47,20 +46,23 @@ def parse_and_get_color(price):
     else:
         color = WHITE
 
-    return Money(price, "USD").format("en_US"), color
+    return color
 
 
 def get_btc_price():
-    response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
-    price = float(response.json()["data"]["priceUsd"])
-    print(f"BTC ${price:.2f}  {start}")
-    return parse_and_get_color(price)
+    while True:
+        with suppress(Exception):
+            response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
+            f_price = float(response.json()["data"]["priceUsd"])
+            price = f"${f_price:.2f}"
+            print(f"{price} {start}")
+            return price, get_color(f_price)
 
 
 if __name__ == "__main__":
     start = datetime.now()
     price, color = get_btc_price()
-    wait_time = timedelta(minutes=1)
+    wait_time = timedelta(minutes=0.5)
 
     while True:
         # display.set_panel("top", buy)
