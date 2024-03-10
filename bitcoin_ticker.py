@@ -55,7 +55,7 @@ def get_btc_price():
             response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
             f_price = float(response.json()["data"]["priceUsd"])
             price = f"${f_price:.2f}"
-            print(f"{price} {start}")
+            print(f"BTC {price} {start.strftime('%d-%m-%Y %H:%M:%S')}")
             return price, get_color(f_price)
 
 
