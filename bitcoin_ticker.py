@@ -11,6 +11,8 @@ import requests
 import time
 from contextlib import suppress
 
+from money import Money
+
 # Normal Price targets
 # BUY_PRICE = 25_000
 # SELL_PRICE = 60_000
@@ -50,13 +52,12 @@ def get_color(price):
 
 
 def get_btc_price():
-    while True:
-        with suppress(Exception):
-            response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
-            f_price = float(response.json()["data"]["priceUsd"])
-            price = f"${f_price:.2f}"
-            print(f"BTC {price} {start.strftime('%d-%m-%Y %H:%M:%S')}")
-            return price, get_color(f_price)
+    # while True:
+    #     with suppress(Exception):
+    response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
+    price = float(response.json()["data"]["priceUsd"])
+    print(f"BTC ${price:.2f} {start.strftime('%d-%m-%Y %H:%M:%S')}")
+    return Money(price, "USD").format("en_US"), get_color(price)
 
 
 if __name__ == "__main__":
