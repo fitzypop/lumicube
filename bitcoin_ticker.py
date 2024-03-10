@@ -12,7 +12,7 @@ import time
 from contextlib import suppress
 from copy import deepcopy
 
-from money import Money
+from money import Money  # pip install money
 
 # Normal Price targets
 # BUY_PRICE = 25_000
