@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 import requests
 import time
 from contextlib import suppress
+from copy import deepcopy
 
 from money import Money
 
@@ -55,9 +56,10 @@ def get_btc_price():
     # while True:
     #     with suppress(Exception):
     response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
-    price = float(response.json()["data"]["priceUsd"])
-    print(f"BTC ${price:.2f} {start.strftime('%d-%m-%Y %H:%M:%S')}")
-    return Money(price, "USD").format("en_US"), get_color(price)
+    price = response.json()["data"]["priceUsd"]
+    m_price = Money(price, "USD").format("en_US")
+    print(f"BTC {m_price} {start.strftime('%d-%m-%Y %H:%M:%S')}")
+    return m_price, get_color(float(price))
 
 
 if __name__ == "__main__":
@@ -66,11 +68,10 @@ if __name__ == "__main__":
     wait_time = timedelta(minutes=0.5)
 
     while True:
-        # display.set_panel("top", buy)
         display.scroll_text(f"BTC {price}", speed=1.5, colour=color)
 
-        if datetime.now() >= start + wait_time:
-            start = datetime.now()
+        if (now := datetime.now()) >= start + wait_time:
+            start = deepcopy(now)
             price, color = get_btc_price()
         else:
             time.sleep(3)
