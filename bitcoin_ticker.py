@@ -53,12 +53,15 @@ def get_color(price):
 
 
 def get_btc_price():
-    # while True:
-    #     with suppress(Exception):
-    response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
+    while True:
+        with suppress(requests.exceptions.ConnectionError):
+            response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
+
+        break
+
     price = response.json()["data"]["priceUsd"]
     m_price = Money(price, "USD").format("en_US")
-    print(f"BTC {m_price} {start.strftime('%d-%m-%Y %H:%M:%S')}")
+    print(f"BTC {m_price} {start.strftime('%m/%d/%Y %I:%M %p')}")
     return m_price, get_color(float(price))
 
 
@@ -73,5 +76,5 @@ if __name__ == "__main__":
         if (now := datetime.now()) >= start + wait_time:
             start = deepcopy(now)
             price, color = get_btc_price()
-        else:
-            time.sleep(3)
+
+        time.sleep(2)
