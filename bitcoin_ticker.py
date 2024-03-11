@@ -15,12 +15,14 @@ from copy import deepcopy
 from money import Money  # pip install money
 
 # Normal Price targets
-# BUY_PRICE = 25_000
-# SELL_PRICE = 60_000
+BUY_PRICE = 25_000
+SELL_PRICE = 70_000
+
+# 3/11/24 - Sold BTC @ $72k - Buy back in if it goes steadily higher
 
 # 3/9/24 - BTC hit $70k and is holding at $68k, need more fine grain targets
-SELL_PRICE = 70_000
-BUY_PRICE = 67_999
+# SELL_PRICE = 70_000
+# BUY_PRICE = 67_999
 
 BLACK = 0x00000
 BLUE = 0x0000FF
@@ -56,8 +58,7 @@ def get_btc_price():
     while True:
         with suppress(requests.exceptions.ConnectionError):
             response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
-
-        break
+            break
 
     price = response.json()["data"]["priceUsd"]
     m_price = Money(price, "USD").format("en_US")
