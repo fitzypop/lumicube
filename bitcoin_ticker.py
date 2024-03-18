@@ -15,8 +15,8 @@ from copy import deepcopy
 from money import Money  # pip install money
 
 # Normal Price targets
-BUY_PRICE = 25_000
-SELL_PRICE = 70_000
+BUY_PRICE = 30_000
+SELL_PRICE = 72_000
 
 # 3/11/24 - Sold BTC @ $72k - Buy back in if it goes steadily higher
 
@@ -30,9 +30,6 @@ GOLD = 0xFFD700
 GREEN = 0x00FF00
 RED = 0xFF0000
 WHITE = 0xFFFFFF
-
-# clear all leds
-display.set_all(BLACK)
 
 
 def get_color(price):
@@ -56,21 +53,28 @@ def get_color(price):
 
 def get_btc_price():
     while True:
-        with suppress(requests.exceptions.ConnectionError):
+        with suppress(
+            requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError
+        ):
             response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
             break
 
     price = response.json()["data"]["priceUsd"]
     m_price = Money(price, "USD").format("en_US")
-    print(f"BTC {m_price} {start.strftime('%m/%d/%Y %I:%M %p')}")
+    # print(f"BTC {m_price} {start.strftime('%m/%d/%Y %I:%M %p')}")
     return m_price, get_color(float(price))
 
 
 if __name__ == "__main__":
+    # clear panels
+    display.set_all(BLACK)
+
+    # init
     start = datetime.now()
     price, color = get_btc_price()
     wait_time = timedelta(minutes=0.5)
 
+    # main loop
     while True:
         display.scroll_text(f"BTC {price}", speed=1.5, colour=color)
 
