@@ -57,9 +57,9 @@ def get_btc_price():
             requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError
         ):
             response = requests.get("https://api.coincap.io/v2/assets/bitcoin")
+            price = response.json()["data"]["priceUsd"]
             break
 
-    price = response.json()["data"]["priceUsd"]
     m_price = Money(price, "USD").format("en_US")
     # print(f"BTC {m_price} {start.strftime('%m/%d/%Y %I:%M %p')}")
     return m_price, get_color(float(price))
