@@ -1,7 +1,7 @@
 # Cherry Tomato
 # import time
 # taken from here: https://github.com/hellomayuko/mukosLumicube/blob/main/pomodoro.py
-# altered by ffitzypop
+# altered by fitzypop
 
 display.set_all(black)
 
